@@ -3,9 +3,16 @@ class CoursesController < ApplicationController
     @courses = Course.all
   end
 
-  def index_eager
-    courses = Course.all.includes(:teachers).includes(:students)
+  def index_includes
+    @courses = Course.all.includes(:teachers).includes(:students)
 
-    render json: courses
+    render 'courses/index'
+  end
+
+  # This gives wrong result
+  def index_joins
+    @courses = Course.all.joins(:teachers).joins(:students)
+
+    render 'courses/index'
   end
 end
